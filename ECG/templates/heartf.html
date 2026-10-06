@@ -614,48 +614,6 @@ function toggleChatbot() {
     }
 }
 
-async function sendChat() {
-    const input = document.getElementById("chatInput");
-    const windowDiv = document.getElementById("chatWindow");
-    const msg = input.value.trim();
-    if(!msg) return;
-
-    // Add user message to window
-    windowDiv.innerHTML += `<div style="background:var(--primary); color:white; padding:8px; border-radius:8px; align-self:flex-end; max-width:85%; font-size:0.9rem; margin-top:4px;">${msg}</div>`;
-    input.value = "";
-    
-    // Add loading indicator
-    const loadingId = "load-" + Date.now();
-    windowDiv.innerHTML += `<div id="${loadingId}" style="background:var(--bg); padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px; font-style:italic; color:#666;">Typing...</div>`;
-    windowDiv.scrollTop = windowDiv.scrollHeight;
-
-    try {
-        const response = await fetch("/chat", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({message: msg})
-        });
-        const data = await response.json();
-        
-        // Remove loading indicator
-        const loader = document.getElementById(loadingId);
-        if(loader) loader.remove();
-
-        if(data.reply) {
-            // Render basic markdown (newlines)
-            const formattedReply = data.reply.replace(/\n/g, "<br>");
-            windowDiv.innerHTML += `<div style="background:var(--bg); padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px;">${formattedReply}</div>`;
-        } else {
-            windowDiv.innerHTML += `<div style="background:#ffcccc; padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px; color:red;">${data.error || "Failed to get answer"}</div>`;
-        }
-    } catch (err) {
-        const loader = document.getElementById(loadingId);
-        if(loader) loader.remove();
-        windowDiv.innerHTML += `<div style="background:#ffcccc; padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px; color:red;">Connection error.</div>`;
-    }
-    windowDiv.scrollTop = windowDiv.scrollHeight;
-}
-
     </script>
 
 </body>
