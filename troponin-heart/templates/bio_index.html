@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Heart Disease Predictor</title>
+</head>
+
+<body>
+
+<h2>Heart Disease Prediction</h2>
+
+<form action="/predict" method="post">
+
+Age: <input type="number" name="age"><br><br>
+
+Gender (1=Male 0=Female):  
+<input type="number" name="gender"><br><br>
+
+Heart Rate:  
+<input type="number" step="any" name="heartrate"><br><br>
+
+Systolic BP:  
+<input type="number" step="any" name="sysbp"><br><br>
+
+Diastolic BP:  
+<input type="number" step="any" name="diabp"><br><br>
+
+Blood Sugar:  
+<input type="number" step="any" name="sugar"><br><br>
+
+CK-MB:  
+<input type="number" step="any" name="ckmb"><br><br>
+
+Troponin:  
+<input type="number" step="any" name="troponin"><br><br>
+
+<button type="submit">Predict</button>
+
+</form>
+
+<h3>{{ prediction }}</h3>
+
+</body>
+</html>

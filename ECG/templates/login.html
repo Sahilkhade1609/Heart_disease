@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartHealth AI | Cardiovascular Intelligence Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <ink rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary: #eb4d4b;
+            --dark: #130f40;
+            --bg: #f4f6fb;
+            --white: #fff;
+            --text: #2d3436;
+            --muted: #636e72;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+            color: var(--text);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 75px;
+            background: rgba(19, 15, 64, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.6rem;
+            background: linear-gradient(to right, #ff7675, #fab1a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-buttons button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .login-btn {
+            background: white;
+            color: var(--dark);
+        }
+
+        .register-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.7rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            margin-top: 20px;
+            color: var(--muted);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        section {
+            padding: 70px 10%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .paper {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .paper h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .paper h4 {
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .paper p,
+        .paper li {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: .95rem;
+        }
+
+        .paper ul {
+            padding-left: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 35px;
+            border-radius: var(--radius);
+            width: 350px;
+        }
+
+        .modal-content h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .close {
+            text-align: right;
+            cursor: pointer;
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .language-select {
+            margin-left: 15px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Chatbot base CSS */
+        #chatbot input::placeholder {
+            color: #666;
+        }
+
+        /* ECG Analyzer Section */
+        .ecg-container{
+        max-width:900px;
+        margin:auto;
+        padding:60px 20px;
+        text-align:center;
+        }
+
+        .ecg-desc{
+        color:#636e72;
+        margin-top:10px;
+        }
+
+        .upload-box{
+        background:white;
+        padding:40px;
+        border-radius:20px;
+        box-shadow:0 20px 50px rgba(0,0,0,0.08);
+        margin-top:30px;
+        }
+
+        .upload-area{
+        display:block;
+        border:2px dashed #eb4d4b;
+        border-radius:15px;
+        padding:40px;
+        cursor:pointer;
+        transition:0.3s;
+        }
+
+        .upload-area:hover{
+        background:#fff5f5;
+        transform:scale(1.02);
+        }
+
+        .upload-area input{
+        display:none;
+        }
+
+        .upload-icon{
+        font-size:40px;
+        color:#eb4d4b;
+        margin-bottom:10px;
+        }
+
+        .file-name{
+        display:block;
+        margin-top:8px;
+        font-size:14px;
+        color:#636e72;
+        }
+
+        .analyze-btn{
+        background:#eb4d4b;
+        color:white;
+        border:none;
+        padding:12px 25px;
+        border-radius:10px;
+        font-weight:600;
+        cursor:pointer;
+        margin-top:20px;
+        font-size:15px;
+        }
+
+        .analyze-btn:hover{
+        opacity:0.9;
+        }
+
+        #preview{
+        margin-top:25px;
+        max-width:100%;
+        border-radius:12px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .loader{
+        margin-top:20px;
+        font-weight:600;
+        color:#555;
+        }
+
+        .result-card{
+        margin-top:25px;
+        background:white;
+        padding:25px;
+        border-radius:18px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.1);
+        text-align:left;
+        }
+
+        .prob-bar-row{
+        display:flex;
+        align-items:center;
+        margin:8px 0;
+        }
+
+        .prob-label{
+        width:150px;
+        font-size:14px;
+        }
+
+        .prob-bar-bg{
+        flex:1;
+        background:#eee;
+        border-radius:10px;
+        overflow:hidden;
+        height:22px;
+        }
+
+        .prob-bar-fill{
+        height:100%;
+        color:white;
+        font-size:12px;
+        line-height:22px;
+        text-align:right;
+        padding-right:6px;
+        }
+
+        .normal{background:#2ecc71;}
+        .abnormalhb{background:#f39c12;}
+        .historyofmi{background:#e67e22;}
+        .mi{background:#e74c3c;}
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">❤️ HeartHealth AI</div>
+        <ul class="nav-links">
+            <li><a href="#" id="navHome">Home</a></li>
+            <li><a href="#cad" id="navCAD">CAD Info</a></li>
+            <li><a href="#docs" id="navDocs">Documentation</a></li>
+            <li><a href="#" onclick="openModal('riskModal')" id="navRisk">Risk Assessment</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <select class="language-select" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="mr">मराठी</option>
+            </select>
+            <a href="/logout"><button style="background-color: #f56565; border: 1px solid rgb(150, 27, 27) ;" class="logout" id="btnRegister">logout</button></a>
+        </div>
+    </nav>
+
+    <!-- Chatbot Toggle Icon -->
+    <div id="chatbotGreeting" style="position:fixed; bottom:80px; right:20px; background:white; color:var(--dark); padding:8px 12px; border-radius:12px; font-size:0.85rem; font-weight:600; box-shadow:var(--shadow); z-index:999; border:1px solid #eee; pointer-events:none;">
+        Hey, AI Assistant here! 🩺
+    </div>
+    <div id="chatbotIcon" onclick="toggleChatbot()" style="position:fixed; bottom:20px; right:20px; background:var(--primary); color:white; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; box-shadow:0 5px 15px rgba(235, 77, 75, 0.4); z-index:1000; transition: transform 0.3s ease;">
+        💬
+    </div>
+
+    <!-- AI Chatbot Box -->
+    <div id="chatbot"
+    style="display:none;position:fixed;bottom:20px;right:20px;background:white;color:var(--text);padding:0;border-radius:15px;height: 450px; width: 350px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 1001; border: 1px solid #eee; overflow:hidden; flex-direction:column;">
+    <div style="background:var(--primary); color:white; padding:15px; font-weight: 800; display:flex; justify-content:space-between; align-items:center;">
+        <span>🩺 AI Cardiologist</span>
+        <span onclick="toggleChatbot()" style="cursor:pointer; font-size:1.2rem;">&times;</span>
+    </div>
+    <div id="chatWindow" style="flex:1; width:100%; background-color: #f9f9f9; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:10px;">
+      <div style="background:white; padding:10px 14px; border-radius:12px; align-self:flex-start; max-width:85%; font-size:0.9rem; border:1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">Hello! I am your AI Cardiologist. How can I help you regarding your heart health today?</div>
+    </div>
+    <div style="padding:15px; background:white; border-top:1px solid #eee; display:flex; gap:10px; align-items:center;">
+        <input id="chatInput" type="text" placeholder="Ask a question..." style="flex:1; padding:10px; border-radius:8px; border: 1px solid #ddd; outline:none; font-size:0.9rem;" onkeypress="if(event.key==='Enter') sendChat()">
+        <button onclick="sendChat()" style="padding:10px 15px; border-radius: 8px; border: none; background-color: var(--primary); color: white; cursor: pointer; font-weight:bold; font-size:0.9rem;">Ask</button>
+    </div>
+    </div>
+
+    <section class="hero">
+        <h1 id="heroTitle">AI-Based Cardiovascular Risk Assessment</h1>
+        <p id="heroDesc">Advanced predictive analytics powered by machine learning models trained on validated
+            cardiovascular datasets.</p>
+    </section>
+
+    <section id="ecg">
+        <div class="ecg-container">
+            <h2>🫀 AI ECG Image Analyzer</h2>
+            <p class="ecg-desc">Upload ECG image to detect possible cardiovascular abnormalities</p>
+            <div class="upload-box">
+                <label for="ecgFile" class="upload-area">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <p>Click to upload ECG image</p>
+                    <span class="file-name" id="fileName">No file selected</span>
+                    <input type="file" id="ecgFile" accept="image/*">
+                </label>
+                <button onclick="uploadECG()" class="analyze-btn">Analyze ECG</button>
+                <div id="loader" class="loader"></div>
+                <img id="preview" style="display:none"/>
+                <div id="ecgResult"></div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="cad">
+        <h2 id="cadTitle">Understanding Coronary Artery Disease (CAD)</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 id="cadWhat">What is CAD?</h3>
+                <p id="cadWhatDesc">CAD occurs when coronary arteries narrow due to plaque buildup (atherosclerosis),
+                    reducing
+                    blood supply to the heart muscle.</p>
+            </div>
+            <div class="card">
+                <h3 id="cadHow">How It Happens</h3>
+                <p id="cadHowDesc">High cholesterol, smoking, diabetes, and hypertension damage arteries, leading to
+                    progressive
+                    blockage.</p>
+            </div>
+            <div class="card">
+                <h3 id="cadDanger">Why Dangerous?</h3>
+                <p id="cadDangerDesc">Reduced blood flow may cause angina, heart attack, heart failure, or sudden
+                    cardiac death.
+                </p>
+            </div>
+            <div class="card">
+                <h3 id="cadPrevention">Prevention</h3>
+                <p id="cadPreventionDesc">Healthy diet, exercise, BP control, no smoking, stress management, and early
+                    screening.</p>
+            </div>
+        </div>
+
+        <div class="grid" style="margin-top: 40px;">
+            <div class="card">
+                <h3 id="cadStagesTitle">Coronary Artery Disease Stages</h3>
+
+                <p id="stage1">
+                    1. Healthy Artery
+                    Blood flows freely through the artery, supplying the heart muscle with enough oxygen and nutrients.
+                </p>
+
+                <p id="stage2">
+                    2. Initial Fatty Deposits
+                    Small amounts of cholesterol, fat, and other substances begin to accumulate on the inner walls of
+                    the artery.
+                </p>
+
+                <p id="stage3">
+                    3. Plaque Obstruction
+                    Over time these deposits form plaque which narrows the artery and reduces blood flow.
+                </p>
+
+                <p id="stage4">
+                    4. Near Complete Blockage
+                    Severe plaque buildup may completely block the artery and can cause a heart attack.
+                </p>
+            </div>
+
+            <div class="card" id="img1" style=" background-image:url(img.jpeg); height:300px; width:300px; background-size:cover; background-position:center;margin-left:20px ">
+            </div>
+        </div>
+
+    </section>
+
+    <section id="docs">
+        <h2 id="docsTitle">Research Documentation</h2>
+
+        <!-- Paper 1 -->
+  <div class="paper">
+    <h3 id="paper0Title">Paper 1 (2024)</h3>
+    <p id="paper0Name"><strong>Detection of Cardiovascular Disease Using ECG Images in Machine Learning and Deep Learning</strong></p>
+    <h4 id="paper0FocusTitle">Focus</h4>
+    <p id="paper0Focus">Automated detection of cardiovascular disease using ECG paper image processing.</p>
+    <h4 id="paper0KeyTitle">Key Contributions</h4>
+    <ul id="paper0Key">
+      <li>Digitizes ECG paper records</li>
+      <li>Extracts ECG image features</li>
+      <li>Automated ECG-based diagnosis</li>
+    </ul>
+    <h4 id="paper0FindingsTitle">Findings</h4>
+    <p id="paper0Findings">Improved diagnostic efficiency over manual ECG analysis.</p>
+    <h4 id="paper0LimitationsTitle">Limitations</h4>
+    <p id="paper0Limitations">Depends heavily on ECG image quality and lacks real-time clinical validation.</p>
+  </div>
+
+  <!-- Paper 2 -->
+  <div class="paper">
+    <h3 id="paper1Title">Paper 2 (2024)</h3>
+    <p id="paper1Name"><strong>Heart Disease Prediction Using Machine Learning Techniques</strong></p>
+    <h4 id="paper1FocusTitle">Focus</h4>
+    <p id="paper1Focus">Used PSO, CFS, K-Means, MLR, MLP, C4.5, FURIA on Cleveland Dataset.</p>
+    <h4 id="paper1KeyTitle">Key Contributions</h4>
+    <ul id="paper1Key">
+      <li>Feature selection significantly improved results</li>
+    </ul>
+    <h4 id="paper1FindingsTitle">Findings</h4>
+    <p id="paper1Findings">MLR achieved 84.17% accuracy.</p>
+    <h4 id="paper1LimitationsTitle">Limitations</h4>
+    <p id="paper1Limitations"></p>
+  </div>
+
+  <!-- Paper 3 -->
+  <div class="paper">
+    <h3 id="paper2Title">Paper 3 (2024)</h3>
+    <p id="paper2Name"><strong>Heart Disease Prediction Using ML from ECG Images</strong></p>
+    <h4 id="paper2FocusTitle">Focus</h4>
+    <p id="paper2Focus">Non-invasive ECG-based ML classification.</p>
+    <h4 id="paper2KeyTitle">Key Contributions</h4>
+    <ul id="paper2Key">
+      <li>Effective classification using ECG images</li>
+    </ul>
+    <h4 id="paper2FindingsTitle">Findings</h4>
+    <p id="paper2Findings">Good results but limited dataset size.</p>
+    <h4 id="paper2LimitationsTitle">Limitations</h4>
+    <p id="paper2Limitations">Small dataset size limits generalizability.</p>
+  </div>
+
+  <!-- Paper 4 -->
+  <div class="paper">
+    <h3 id="paper3Title">Paper 4 (2022)</h3>
+    <p id="paper3Name"><strong>Hybrid ML Techniques for Heart Disease Prediction</strong></p>
+    <h4 id="paper3FocusTitle">Focus</h4>
+    <p id="paper3Focus">Combined Random Forest and Linear models using UCI Dataset.</p>
+    <h4 id="paper3KeyTitle">Key Contributions</h4>
+    <ul id="paper3Key">
+      <li>Hybrid approach improved predictive accuracy</li>
+    </ul>
+    <h4 id="paper3FindingsTitle">Findings</h4>
+    <p id="paper3Findings">Achieved 88.7% accuracy.</p>
+    <h4 id="paper3LimitationsTitle">Limitations</h4>
+    <p id="paper3Limitations">Requires careful parameter tuning.</p>
+  </div>
+
+  <!-- Paper 5 -->
+  <div class="paper">
+    <h3 id="paper4Title">Paper 5 (2024)</h3>
+    <p id="paper4Name"><strong>Predictive Analytics for Heart Disease: Comparative Study</strong></p>
+    <h4 id="paper4FocusTitle">Focus</h4>
+    <p id="paper4Focus">Compared XGBoost, SVM, RF, KNN using UCI & Cleveland datasets.</p>
+    <h4 id="paper4KeyTitle">Key Contributions</h4>
+    <ul id="paper4Key">
+      <li>Evaluated multiple ML algorithms</li>
+      <li>Identified best performing model</li>
+    </ul>
+    <h4 id="paper4FindingsTitle">Findings</h4>
+    <p id="paper4Findings">XGBoost achieved ~92.5% accuracy.</p>
+    <h4 id="paper4LimitationsTitle">Limitations</h4>
+    <p id="paper4Limitations">Comparison limited to specific datasets.</p>
+  </div>
+
+  <!-- Paper 6 -->
+  <div class="paper">
+    <h3 id="paper5Title">Paper 6 (2023)</h3>
+    <p id="paper5Name"><strong>Heart Disease Prediction Using ML & Data Mining</strong></p>
+    <h4 id="paper5FocusTitle">Focus</h4>
+    <p id="paper5Focus">Web-based system using Cleveland & Kaggle datasets.</p>
+    <h4 id="paper5KeyTitle">Key Contributions</h4>
+    <ul id="paper5Key">
+      <li>Implemented web-based predictive system</li>
+      <li>High prediction accuracy</li>
+    </ul>
+    <h4 id="paper5FindingsTitle">Findings</h4>
+    <p id="paper5Findings">Effective prediction but scalability issues exist.</p>
+    <h4 id="paper5LimitationsTitle">Limitations</h4>
+    <p id="paper5Limitations">May not scale well for large populations.</p>
+  </div>
+</section>
+
+
+<footer>
+<p id="footerText">© 2026 HeartHealth AI | Intelligent Cardiovascular Screening</p>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+<div class="modal-content">
+<div class="close" onclick="closeModal('loginModal')">✖</div>
+<h3 id="loginTitle">Login</h3>
+<input type="email" placeholder="Email" id="loginEmail">
+<input type="password" placeholder="Password" id="loginPassword">
+<button onclick="alert('Login Successful (Demo)')" id="loginBtn">Login</button>
+</div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="modal" id="registerModal">
+<div class="modal-content">
+<div class="close" onclick="closeModal('registerModal')">✖</div>
+<h3 id="registerTitle">Register</h3>
+<input type="text" placeholder="Full Name" id="regName">
+<input type="email" placeholder="Email" id="regEmail">
+<input type="password" placeholder="Password" id="regPass">
+<button onclick="alert('Registration Successful (Demo)')" id="regBtn">Register</button>
+</div>
+</div>
+
+<!-- RISK ASSESSMENT MODAL -->
+<div class="modal" id="riskModal">
+<div class="modal-content" style="width:400px; max-height: 90vh; overflow-y: auto;">
+<div class="close" onclick="closeModal('riskModal')">✖</div>
+<h3 id="riskTitle">AI Risk Assessment</h3>
+<input type="number" id="age" placeholder="Age">
+<select id="gender">
+<option value="1">Male</option>
+<option value="0">Female</option>
+</select>
+<input type="number" id="heartrate" placeholder="Heart Rate">
+<input type="number" id="sysbp" placeholder="Systolic BP (mmHg)">
+<input type="number" id="diabp" placeholder="Diastolic BP (mmHg)">
+<input type="number" id="sugar" placeholder="Blood Sugar">
+<input type="number" id="ckmb" placeholder="CK-MB value">
+<input type="number" id="troponin" placeholder="Troponin value">
+<button onclick="predictRisk()" id="predictBtn">Predict</button>
+<div style="margin-top:15px;">
+<div style="background:#eee;height:18px;border-radius:10px;overflow:hidden;">
+<div id="riskBar" style="height:100%;width:0%;background:linear-gradient(90deg,green,orange,red);transition:0.5s;"></div>
+</div>
+<p id="riskResult" style="margin-top:10px;font-weight:600;"></p>
+</div>
+</div>
+</div>
+
+<script>
+// Modal functions
+function openModal(id){document.getElementById(id).style.display="flex";}
+function closeModal(id){document.getElementById(id).style.display="none";}
+
+// Risk calculation
+function predictRisk(){
+  let age=parseInt(document.getElementById("age").value)||0;
+  let hr=parseInt(document.getElementById("heartrate").value)||0;
+  let sysbp=parseInt(document.getElementById("sysbp").value)||0;
+  let diabp=parseInt(document.getElementById("diabp").value)||0;
+  let sugar=parseFloat(document.getElementById("sugar").value)||0;
+  let ckmb=parseFloat(document.getElementById("ckmb").value)||0;
+  let trop=parseFloat(document.getElementById("troponin").value)||0;
+  let score=(age*0.2)+(sysbp*0.1)+(diabp*0.1)-(hr*0.05)+(sugar*0.1)+(ckmb*0.5)+(trop*20);
+  
+  score=Math.max(5,Math.min(95,Math.round(score)));
+  document.getElementById("riskBar").style.width=score+"%";
+  let result=document.getElementById("riskResult");
+  if(score<30){result.innerHTML="Low Risk ("+score+"%)"; result.style.color="green";}
+  else if(score<60){result.innerHTML="Moderate Risk ("+score+"%)"; result.style.color="orange";}
+  else{result.innerHTML="High Risk ("+score+"%)"; result.style.color="red";}
+}
+
+// Translation object
+ const translations = {
+            en: {
+                navHome: "Home", navCAD: "CAD Info", navDocs: "Documentation", navRisk: "Risk Assessment", btnLogin: "Login", btnRegister: "Register",
+                heroTitle: "AI-Based Cardiovascular Risk Assessment", heroDesc: "Advanced predictive analytics powered by machine learning models trained on validated cardiovascular datasets.",
+                cadTitle: "Understanding Coronary Artery Disease (CAD)", cadWhat: "What is CAD?", cadWhatDesc: "CAD occurs when coronary arteries narrow due to plaque buildup (atherosclerosis), reducing blood supply to the heart muscle.",
+                cadHow: "How It Happens", cadHowDesc: "High cholesterol, smoking, diabetes, and hypertension damage arteries, leading to progressive blockage.",
+                cadDanger: "Why Dangerous?", cadDangerDesc: "Reduced blood flow may cause angina, heart attack, heart failure, or sudden cardiac death.",
+                cadPrevention: "Prevention", cadPreventionDesc: "Healthy diet, exercise, BP control, no smoking, stress management, and early screening.",
+                footerText: "© 2026 HeartHealth AI | Intelligent Cardiovascular Screening",
+                loginTitle: "Login", loginEmail: "Email", loginPassword: "Password", loginBtn: "Login",
+                registerTitle: "Register", regName: "Full Name", regEmail: "Email", regPass: "Password", regBtn: "Register",
+                riskTitle: "AI Risk Assessment", predictBtn: "Predict",
+                age: "Age",
+                chol: "Cholesterol (mg/dL)",
+                bp: "Resting BP (mmHg)",
+                hr: "Max Heart Rate",
+                bmi: "BMI",
+                sexMale: "Male",
+                sexFemale: "Female",
+                papers: [
+                    {
+                        title: "Paper 1 (2024)",
+                        name: "Detection of Cardiovascular Disease Using ECG Images in Machine Learning and Deep Learning",
+                        focus: "Automated detection of cardiovascular disease using ECG paper image processing.",
+                        keyContributions: ["Digitizes ECG paper records", "Extracts ECG image features", "Automated ECG-based diagnosis"],
+                        findings: "Improved diagnostic efficiency over manual ECG analysis.",
+                        limitations: "Depends heavily on ECG image quality and lacks real-time clinical validation."
+                    },
+                    {
+                        title: "Paper 2 (2024)",
+                        name: "Heart Disease Prediction Using Machine Learning Techniques",
+                        focus: "Used PSO, CFS, K-Means, MLR, MLP, C4.5, FURIA on Cleveland Dataset.",
+                        keyContributions: ["Feature selection significantly improved results"],
+                        findings: "MLR achieved 84.17% accuracy.",
+                        limitations: ""
+                    },
+                    {
+                        title: "Paper 3 (2024)",
+                        name: "Heart Disease Prediction Using ML from ECG Images",
+                        focus: "Non-invasive ECG-based ML classification.",
+                        keyContributions: ["Effective classification using ECG images"],
+                        findings: "Good results but limited dataset size.",
+                        limitations: "Small dataset size limits generalizability."
+                    },
+                    {
+                        title: "Paper 4 (2022)",
+                        name: "Hybrid ML Techniques for Heart Disease Prediction",
+                        focus: "Combined Random Forest and Linear models using UCI Dataset.",
+                        keyContributions: ["Hybrid approach improved predictive accuracy"],
+                        findings: "Achieved 88.7% accuracy.",
+                        limitations: "Requires careful parameter tuning."
+                    },
+                    {
+                        title: "Paper 5 (2024)",
+                        name: "Predictive Analytics for Heart Disease: Comparative Study",
+                        focus: "Compared XGBoost, SVM, RF, KNN using UCI & Cleveland datasets.",
+                        keyContributions: ["Evaluated multiple ML algorithms", "Identified best performing model"],
+                        findings: "XGBoost achieved ~92.5% accuracy.",
+                        limitations: "Comparison limited to specific datasets."
+                    },
+                    {
+                        title: "Paper 6 (2023)",
+                        name: "Heart Disease Prediction Using ML & Data Mining",
+                        focus: "Web-based system using Cleveland & Kaggle datasets.",
+                        keyContributions: ["Implemented web-based predictive system", "High prediction accuracy"],
+                        findings: "Effective prediction but scalability issues exist.",
+                        limitations: "May not scale well for large populations."
+                    }
+                ],
+                paperHeadings: {
+                    focus: "Focus",
+                    key: "Key Contributions",
+                    findings: "Findings",
+                    limitations: "Limitations"
+                }
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navCAD: "सीएडी जानकारी", navDocs: "दस्तावेज़", navRisk: "जोखिम आकलन", btnLogin: "लॉगिन", btnRegister: "पंजीकरण",
+                heroTitle: "एआई-आधारित हृदय रोग जोखिम मूल्यांकन", heroDesc: "सत्यापित हृदय डेटा पर प्रशिक्षित मशीन लर्निंग मॉडल द्वारा समर्थित उन्नत विश्लेषण।",
+                cadTitle: "कोरोनरी धमनी रोग (CAD) को समझना", cadWhat: "CAD क्या है?", cadWhatDesc: "CAD तब होता है जब कोरोनरी धमनी संकीर्ण हो जाती है और हृदय मांसपेशियों को रक्त की आपूर्ति कम हो जाती है।",
+                cadHow: "कैसे होता है", cadHowDesc: "उच्च कोलेस्ट्रॉल, धूम्रपान, मधुमेह और उच्च रक्तचाप धमनी को नुकसान पहुँचाते हैं।",
+                cadDanger: "क्यों खतरनाक है?", cadDangerDesc: "कम रक्त प्रवाह से एंजाइना, हृदयाघात, हृदय विफलता या अचानक हृदय मृत्यु हो सकती है।",
+                cadPrevention: "रोकथाम", cadPreventionDesc: "स्वस्थ आहार, व्यायाम, रक्तचाप नियंत्रण, धूम्रपान न करें, तनाव प्रबंधन।",
+                footerText: "© 2026 HeartHealth AI | बुद्धिमान हृदय स्क्रीनिंग",
+                loginTitle: "लॉगिन", loginEmail: "ईमेल", loginPassword: "पासवर्ड", loginBtn: "लॉगिन",
+                registerTitle: "पंजीकरण", regName: "पूरा नाम", regEmail: "ईमेल", regPass: "पासवर्ड", regBtn: "पंजीकरण",
+                riskTitle: "एआई जोखिम मूल्यांकन", predictBtn: "पूर्वानुमान",
+                age: "उम्र",
+                chol: "कोलेस्ट्रॉल (mg/dL)",
+                bp: "विश्राम रक्तचाप (mmHg)",
+                hr: "अधिकतम हृदय गति",
+                bmi: "बीएमआई",
+                sexMale: "पुरुष",
+                sexFemale: "महिला",
+                papers: [
+                    {
+                        title: "पेपर 1 (2024)",
+                        name: "मशीन लर्निंग और डीप लर्निंग में ईसीजी छवियों का उपयोग करके हृदय रोग का पता लगाना",
+                        focus: "ईसीजी पेपर इमेज प्रोसेसिंग का उपयोग करके हृदय रोग का स्वचालित पता लगाना।",
+                        keyContributions: ["ईसीजी पेपर रिकॉर्ड को डिजिटाइज़ करता है", "ईसीजी छवि विशेषताएँ निकालता है", "ईसीजी आधारित स्वचालित निदान"],
+                        findings: "मैनुअल ईसीजी विश्लेषण की तुलना में बेहतर निदान दक्षता।",
+                        limitations: "ईसीजी छवि की गुणवत्ता पर अत्यधिक निर्भर और वास्तविक समय क्लिनिकल सत्यापन नहीं।"
+                    },
+                    {
+                        title: "पेपर 2 (2024)",
+                        name: "मशीन लर्निंग तकनीकों का उपयोग करके हृदय रोग की भविष्यवाणी",
+                        focus: "Cleveland Dataset पर PSO, CFS, K-Means, MLR, MLP, C4.5, FURIA का उपयोग।",
+                        keyContributions: ["विशेषता चयन ने परिणामों में महत्वपूर्ण सुधार किया"],
+                        findings: "MLR ने 84.17% सटीकता प्राप्त की।",
+                        limitations: ""
+                    },
+                    {
+                        title: "पेपर 3 (2024)",
+                        name: "ईसीजी छवियों से ML के माध्यम से हृदय रोग की भविष्यवाणी",
+                        focus: "गैर-इनवेसिव ईसीजी-आधारित ML वर्गीकरण।",
+                        keyContributions: ["ईसीजी छवियों का उपयोग करके प्रभावी वर्गीकरण"],
+                        findings: "अच्छे परिणाम लेकिन सीमित डेटा आकार।",
+                        limitations: "छोटे डेटा सेट के कारण सामान्यीकरण सीमित।"
+                    },
+                    {
+                        title: "पेपर 4 (2022)",
+                        name: "हाइब्रिड ML तकनीकें हृदय रोग की भविष्यवाणी के लिए",
+                        focus: "UCI Dataset का उपयोग करके रैंडम फॉरेस्ट और लिनियर मॉडल का संयोजन।",
+                        keyContributions: ["हाइब्रिड दृष्टिकोण ने पूर्वानुमान सटीकता में सुधार किया"],
+                        findings: "88.7% सटीकता प्राप्त हुई।",
+                        limitations: "सावधानीपूर्वक पैरामीटर ट्यूनिंग आवश्यक।"
+                    },
+                    {
+                        title: "पेपर 5 (2024)",
+                        name: "हृदय रोग के लिए प्रेडिक्टिव एनालिटिक्स: तुलनात्मक अध्ययन",
+                        focus: "UCI और Cleveland डेटासेट का उपयोग करके XGBoost, SVM, RF, KNN की तुलना।",
+                        keyContributions: ["कई ML एल्गोरिदम का मूल्यांकन किया", "सर्वश्रेष्ठ प्रदर्शन करने वाले मॉडल की पहचान की"],
+                        findings: "XGBoost ने ~92.5% सटीकता प्राप्त की।",
+                        limitations: "तुलना केवल विशिष्ट डेटासेट तक सीमित।"
+                    },
+                    {
+                        title: "पेपर 6 (2023)",
+                        name: "ML और डेटा माइनिंग का उपयोग करके हृदय रोग की भविष्यवाणी",
+                        focus: "Cleveland और Kaggle डेटासेट का उपयोग करके वेब-आधारित सिस्टम।",
+                        keyContributions: ["वेब-आधारित पूर्वानुमान प्रणाली लागू की", "उच्च सटीकता"],
+                        findings: "प्रभावी पूर्वानुमान लेकिन स्केलेबिलिटी मुद्दे हैं।",
+                        limitations: "बड़ी आबादी के लिए स्केल करना कठिन हो सकता है।"
+                    }
+                ],
+                paperHeadings: {
+                    focus: "फोकस",
+                    key: "मुख्य योगदान",
+                    findings: "निष्कर्ष",
+                    limitations: "सीमाएँ"
+                }
+            },
+            mr: {
+                navHome: "मुख्य पृष्ठ", navCAD: "CAD माहिती", navDocs: "दस्तऐवज", navRisk: "जोखीम मूल्यांकन", btnLogin: "लॉगिन", btnRegister: "नोंदणी",
+                heroTitle: "एआय-आधारित हृदयविकार जोखीम मूल्यांकन", heroDesc: "प्रमाणित हृदय डेटा वर प्रशिक्षित मशीन लर्निंग मॉडेल्सद्वारे प्रगत विश्लेषण.",
+                cadTitle: "कॉरोनरी आर्टरी डिसीज (CAD) समजून घेणे", cadWhat: "CAD काय आहे?", cadWhatDesc: "जेव्हा कोरोनरी आर्टरीज अरुंद होतात आणि हृदय पेशींना रक्तपुरवठा कमी होतो तेव्हा CAD होते.",
+                cadHow: "कसे होते", cadHowDesc: "उच्च कोलेस्ट्रॉल, धूम्रपान, मधुमेह, उच्च रक्तदाब धमनींना नुकसान करतात.",
+                cadDanger: "का धोकादायक?", cadDangerDesc: "कमी रक्तप्रवाहामुळे एंजाइना, हृदयविकार, हृदय अपयश किंवा अचानक मृत्यू होऊ शकतो.",
+                cadPrevention: "प्रतिबंध", cadPreventionDesc: "संतुलित आहार, व्यायाम, रक्तदाब नियंत्रण, धूम्रपान टाळा, ताण व्यवस्थापन.",
+                footerText: "© 2026 HeartHealth AI | बुद्धिमान हृदय स्क्रीनिंग",
+                loginTitle: "लॉगिन", loginEmail: "ईमेल", loginPassword: "पासवर्ड", loginBtn: "लॉगिन",
+                registerTitle: "नोंदणी", regName: "पूर्ण नाव", regEmail: "ईमेल", regPass: "पासवर्ड", regBtn: "नोंदणी",
+                riskTitle: "एआय जोखीम मूल्यांकन", predictBtn: "पूर्वानुमान",
+                age: "वय",
+                chol: "कोलेस्ट्रॉल (mg/dL)",
+                bp: "आराम रक्तदाब (mmHg)",
+                hr: "कमाल हृदय दर",
+                bmi: "बीएमआय",
+                sexMale: "पुरुष",
+                sexFemale: "महिला",
+                papers: [
+                {
+                    title: "पेपर 1 (2024)",
+                    name: "मशीन लर्निंग आणि डीप लर्निंगमधील ECG प्रतिमा वापरून हृदयविकाराचा शोध",
+                    focus: "ECG पेपर इमेज प्रोसेसिंग वापरून हृदयविकाराचे स्वयंचलित शोध.",
+                    keyContributions: ["ECG पेपर रेकॉर्ड डिजिटाइज करतो", "ECG प्रतिमा वैशिष्ट्ये काढतो", "स्वयंचलित ECG-आधारित निदान"],
+                    findings: "मॅन्युअल ECG विश्लेषणापेक्षा सुधारित निदान कार्यक्षमता.",
+                    limitations: "ECG प्रतिमेच्या गुणवत्तेवर अवलंबून आणि रिअल-टाइम क्लिनिकल व्हॅलिडेशन नाही."
+                },
+                {
+                    title: "पेपर 2 (2024)",
+                    name: "मशीन लर्निंग तंत्रांचा वापर करून हृदयविकाराची भविष्यवाणी",
+                    focus: "Cleveland Dataset वर PSO, CFS, K-Means, MLR, MLP, C4.5, FURIA वापरले.",
+                    keyContributions: ["फीचर सिलेक्शनमुळे निकाल सुधारला"],
+                    findings: "MLR ने 84.17% अचूकता मिळवली.",
+                    limitations: ""
+                },
+                {
+                    title: "पेपर 3 (2024)",
+                    name: "ECG प्रतिमा वापरून ML द्वारे हृदयविकाराची भविष्यवाणी",
+                    focus: "नॉन-इनवेसिव्ह ECG-आधारित ML वर्गीकरण.",
+                    keyContributions: ["ECG प्रतिमा वापरून प्रभावी वर्गीकरण"],
+                    findings: "चांगले निकाल परंतु डेटा सेट लहान आहे.",
+                    limitations: "लहान डेटा सेटमुळे सामान्यीकरण मर्यादित आहे."
+                },
+                {
+                    title: "पेपर 4 (2022)",
+                    name: "हायब्रिड ML तंत्र हृदयविकाराची भविष्यवाणी करण्यासाठी",
+                    focus: "UCI Dataset वापरून Random Forest आणि Linear मॉडेल्सचे संयोजन.",
+                    keyContributions: ["हायब्रिड पद्धतीने पूर्वानुमान अचूकता सुधारली"],
+                    findings: "88.7% अचूकता मिळाली.",
+                    limitations: "परामीटर्स योग्यरित्या सेट करणे आवश्यक."
+                },
+                {
+                    title: "पेपर 5 (2024)",
+                    name: "हृदयविकारासाठी Predictive Analytics: तुलना अभ्यास",
+                    focus: "UCI & Cleveland डेटासेट वापरून XGBoost, SVM, RF, KNN ची तुलना केली.",
+                    keyContributions: ["अनेक ML अल्गोरिदमचे मूल्यांकन केले", "सर्वोत्तम मॉडेल ओळखले"],
+                    findings: "XGBoost ने ~92.5% अचूकता मिळवली.",
+                    limitations: "तुलना केवळ विशिष्ट डेटासेटवर आधारित आहे."
+                },
+                {
+                    title: "पेपर 6 (2023)",
+                    name: "ML आणि Data Mining वापरून हृदयविकाराची भविष्यवाणी",
+                    focus: "Cleveland & Kaggle डेटासेट वापरून वेब-आधारित सिस्टम.",
+                    keyContributions: ["वेब-आधारित पूर्वानुमान प्रणाली कार्यान्वित केली", "उच्च अचूकता"],
+                    findings: "प्रभावी परंतु स्केलेबिलिटी समस्या आहेत.",
+                    limitations: "मोठ्या लोकसंख्येसाठी स्केल करणे कठीण."
+                }
+            ],
+            paperHeadings: {
+                focus: "फोकस",
+                key: "मुख्य योगदान",
+                findings: "शोध निष्कर्ष",
+                limitations: "मर्यादा"
+            }
+        }
+    };
+
+        // Change language function
+        function changeLanguage(lang) {
+            const t = translations[lang];
+            document.getElementById("navHome").innerText = t.navHome;
+            document.getElementById("navCAD").innerText = t.navCAD;
+            document.getElementById("navDocs").innerText = t.navDocs;
+            document.getElementById("navRisk").innerText = t.navRisk;
+            document.getElementById("heroTitle").innerText = t.heroTitle;
+            document.getElementById("heroDesc").innerText = t.heroDesc;
+            document.getElementById("cadTitle").innerText = t.cadTitle;
+            document.getElementById("cadWhat").innerText = t.cadWhat;
+            document.getElementById("cadWhatDesc").innerText = t.cadWhatDesc;
+            document.getElementById("cadHow").innerText = t.cadHow;
+            document.getElementById("cadHowDesc").innerText = t.cadHowDesc;
+            document.getElementById("cadDanger").innerText = t.cadDanger;
+            document.getElementById("cadDangerDesc").innerText = t.cadDangerDesc;
+            document.getElementById("cadPrevention").innerText = t.cadPrevention;
+            document.getElementById("cadPreventionDesc").innerText = t.cadPreventionDesc;
+            document.getElementById("footerText").innerText = t.footerText;
+           
+            // Risk modal
+            document.getElementById("riskTitle").innerText = t.riskTitle;
+            document.getElementById("predictBtn").innerText = t.predictBtn;
+            document.getElementById("age").placeholder = t.age;
+            document.getElementById("gender").options[0].text = t.sexMale;
+            document.getElementById("gender").options[1].text = t.sexFemale;
+
+
+            t.papers.forEach((paper, index) => {
+                document.getElementById(`paper${index}Title`).innerText = paper.title;
+                document.getElementById(`paper${index}Name`).innerText = paper.name;
+                document.getElementById(`paper${index}Focus`).innerText = paper.focus;
+
+                // Key contributions (ul)
+                const ul = document.getElementById(`paper${index}Key`);
+                ul.innerHTML = ""; // Clear existing list
+                paper.keyContributions.forEach(item => {
+                    const li = document.createElement("li");
+                    li.innerText = item;
+                    ul.appendChild(li);
+                });
+
+                document.getElementById(`paper${index}Findings`).innerText = paper.findings;
+                document.getElementById(`paper${index}Limitations`).innerText = paper.limitations;
+            });
+
+            const headings = t.paperHeadings;
+
+            for (let i = 0; i < 6; i++) {
+                document.getElementById(`paper${i}FocusTitle`).innerText = headings.focus;
+                document.getElementById(`paper${i}KeyTitle`).innerText = headings.key;
+                document.getElementById(`paper${i}FindingsTitle`).innerText = headings.findings;
+                document.getElementById(`paper${i}LimitationsTitle`).innerText = headings.limitations;
+            }
+
+        }
+
+        /* ECG preview */
+        document.getElementById("ecgFile").onchange=function(evt){
+            const file=evt.target.files[0];
+            if(file){
+                const reader=new FileReader();
+                reader.onload=function(e){
+                    const img=document.getElementById("preview");
+                    img.src=e.target.result;
+                    img.style.display="block";
+                }
+                reader.readAsDataURL(file);
+                document.getElementById("fileName").innerText=file.name;
+            }
+        }
+
+        /* upload ECG */
+        async function uploadECG(){
+            const fileInput=document.getElementById("ecgFile");
+            const resultDiv=document.getElementById("ecgResult");
+            const loader=document.getElementById("loader");
+
+            if(fileInput.files.length===0){
+                alert("Please select ECG image");
+                return;
+            }
+
+            const formData=new FormData();
+            formData.append("file",fileInput.files[0]);
+
+            formData.append("age", document.getElementById("age")?.value || 0);
+            formData.append("gender", document.getElementById("gender")?.value || 0);
+            formData.append("heartrate", document.getElementById("heartrate")?.value || 0);
+            formData.append("sysbp", document.getElementById("sysbp")?.value || 0);
+            formData.append("diabp", document.getElementById("diabp")?.value || 0);
+            formData.append("sugar", document.getElementById("sugar")?.value || 0);
+            formData.append("ckmb", document.getElementById("ckmb")?.value || 0);
+            formData.append("troponin", document.getElementById("troponin")?.value || 0);
+
+            loader.innerHTML="AI analyzing ECG...";
+            resultDiv.innerHTML="";
+
+            try{
+                const response=await fetch("/predict",{
+                    method:"POST",
+                    body:formData
+                });
+
+                const data=await response.json();
+                loader.innerHTML="";
+
+                let color="green";
+                if(data.severity==="moderate") color="orange";
+                if(data.severity==="high") color="orangered";
+                if(data.severity==="critical") color="red";
+
+                let probBars="";
+                if(data.ecg_probabilities){
+                    const order=["Normal","AbnormalHB","historyofmi","mi"];
+                    const labels={
+                        Normal:"Normal",
+                        AbnormalHB:"Abnormal HB",
+                        historyofmi:"History of MI",
+                        mi:"MI (Active)"
+                    };
+                    const colors={
+                        Normal:"normal",
+                        AbnormalHB:"abnormalhb",
+                        historyofmi:"historyofmi",
+                        mi:"mi"
+                    };
+
+                    order.forEach(cls=>{
+                        const pct=data.ecg_probabilities[cls]||0;
+                        probBars+=`
+                        <div class="prob-bar-row">
+                            <span class="prob-label">${labels[cls]}</span>
+                            <div class="prob-bar-bg">
+                                <div class="prob-bar-fill ${colors[cls]}" style="width:${pct}%">
+                                    ${pct}%
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                }
+
+                resultDiv.innerHTML=`
+                <div class="result-card">
+                    <h3 style="color:${color};">ECG Prediction: ${(data.ecg_prediction || "Unknown")}</h3>
+                    <p><strong>ECG Confidence:</strong> ${data.ecg_confidence || 0}%</p>
+                    <p><strong>Fusion Result:</strong> ${data.fusion_result || "N/A"}</p>
+                    <p><strong>Fusion Probability:</strong> ${(data.fusion_probability || 0).toFixed(2)}%</p>
+                    <p><strong>Severity:</strong> ${(data.severity || "unknown").toUpperCase()}</p>
+                    <p><strong>Doctor Advice:</strong> ${data.suggestion?.doctor || ""}</p>
+                    <h4>Prediction Probabilities</h4>
+                    ${probBars}
+                </div>
+                `;
+            }catch(error){
+                console.error(error);
+                loader.innerHTML="";
+                resultDiv.innerHTML="<p style='color:red;'>Server Error</p>";
+            }
+        }
+
+        /* AI Chatbot logic */
+        function toggleChatbot() {
+            const chat = document.getElementById("chatbot");
+            const icon = document.getElementById("chatbotIcon");
+            const greeting = document.getElementById("chatbotGreeting");
+            if(chat.style.display === "none" || chat.style.display === "") {
+                chat.style.display = "flex";
+                icon.style.display = "none";
+                greeting.style.display = "none";
+            } else {
+                chat.style.display = "none";
+                icon.style.display = "flex";
+                greeting.style.display = "block";
+            }
+        }
+
+        async function sendChat() {
+            const input = document.getElementById("chatInput");
+            const windowDiv = document.getElementById("chatWindow");
+            const msg = input.value.trim();
+            if(!msg) return;
+
+            // Add user message to window
+            windowDiv.innerHTML += `<div style="background:var(--primary); color:white; padding:8px; border-radius:8px; align-self:flex-end; max-width:85%; font-size:0.9rem; margin-top:4px;">${msg}</div>`;
+            input.value = "";
+            
+            // Add loading indicator
+            const loadingId = "load-" + Date.now();
+            windowDiv.innerHTML += `<div id="${loadingId}" style="background:var(--bg); padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px; font-style:italic; color:#666;">Typing...</div>`;
+            windowDiv.scrollTop = windowDiv.scrollHeight;
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({message: msg})
+                });
+                const data = await response.json();
+                
+                // Remove loading indicator
+                const loader = document.getElementById(loadingId);
+                if(loader) loader.remove();
+
+                if(data.reply) {
+                    // Render basic markdown (newlines)
+                    const formattedReply = data.reply.replace(/\n/g, "<br>");
+                    windowDiv.innerHTML += `<div style="background:var(--bg); padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px;">${formattedReply}</div>`;
+                } else {
+                    windowDiv.innerHTML += `<div style="background:#ffcccc; padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px; color:red;">${data.error || "Failed to get answer"}</div>`;
+                }
+            } catch (err) {
+                const loader = document.getElementById(loadingId);
+                if(loader) loader.remove();
+                windowDiv.innerHTML += `<div style="background:#ffcccc; padding:8px; border-radius:8px; align-self:flex-start; max-width:85%; font-size:0.9rem; margin-top:4px; color:red;">Connection error.</div>`;
+            }
+            windowDiv.scrollTop = windowDiv.scrollHeight;
+        }
+    </script>
+
+</body>
+
+</html>

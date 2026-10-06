@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeartHealth AI | ECG Analyzer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#fdfbfb,#ebedee);
+margin:0;
+}
+
+.container{
+max-width:950px;
+margin:auto;
+padding:40px;
+text-align:center;
+}
+
+h1{
+color:#130f40;
+}
+
+.upload-box{
+background:white;
+padding:35px;
+border-radius:18px;
+box-shadow:0 20px 50px rgba(0,0,0,0.1);
+margin-top:30px;
+}
+
+button{
+background:#eb4d4b;
+color:white;
+border:none;
+padding:10px 22px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+margin-top:12px;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+#preview{
+margin-top:20px;
+max-width:100%;
+border-radius:12px;
+}
+
+.loader{
+margin-top:20px;
+font-weight:600;
+color:#555;
+}
+
+.result-card{
+margin-top:25px;
+background:white;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+text-align:left;
+}
+
+/* probability bars */
+
+.prob-bar-row{
+display:flex;
+align-items:center;
+margin:8px 0;
+}
+
+.prob-label{
+width:150px;
+font-size:14px;
+}
+
+.prob-bar-bg{
+flex:1;
+background:#eee;
+border-radius:10px;
+overflow:hidden;
+height:22px;
+}
+
+.prob-bar-fill{
+height:100%;
+color:white;
+font-size:12px;
+line-height:22px;
+text-align:right;
+padding-right:6px;
+}
+
+.normal{background:#2ecc71;}
+.abnormalhb{background:#f39c12;}
+.historyofmi{background:#e67e22;}
+.mi{background:#e74c3c;}
+
+/* gauge meter */
+
+.gauge{
+width:200px;
+height:100px;
+margin:auto;
+position:relative;
+}
+
+.gauge-bg{
+width:100%;
+height:100%;
+background:#eee;
+border-top-left-radius:200px;
+border-top-right-radius:200px;
+}
+
+.gauge-fill{
+position:absolute;
+bottom:0;
+left:0;
+height:100%;
+background:linear-gradient(90deg,green,orange,red);
+border-top-left-radius:200px;
+border-top-right-radius:200px;
+width:0%;
+transition:1s;
+}
+
+.gauge-text{
+text-align:center;
+font-weight:600;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>❤️ HeartHealth AI</h1>
+<p>AI Powered ECG Image Analysis System</p>
+
+<div class="upload-box">
+
+<input type="file" id="ecgFile" accept="image/*">
+
+<br>
+
+<img id="preview" style="display:none"/>
+
+<br>
+
+<button onclick="uploadECG()">Analyze ECG</button>
+
+<div id="loader" class="loader"></div>
+
+<div id="ecgResult"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let lastResult=null;
+
+/* ECG preview */
+
+document.getElementById("ecgFile").onchange=function(evt){
+
+const file=evt.target.files[0];
+
+if(file){
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+const img=document.getElementById("preview");
+
+img.src=e.target.result;
+
+img.style.display="block";
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+}
+
+/* upload ECG */
+
+async function uploadECG(){
+
+const fileInput=document.getElementById("ecgFile");
+
+const resultDiv=document.getElementById("ecgResult");
+
+const loader=document.getElementById("loader");
+
+if(fileInput.files.length===0){
+
+alert("Please select ECG image");
+
+return;
+
+}
+
+const formData=new FormData();
+
+formData.append("file",fileInput.files[0]);
+
+loader.innerHTML="AI analyzing ECG...";
+
+resultDiv.innerHTML="";
+
+try{
+
+const response=await fetch("/predict",{
+
+method:"POST",
+body:formData
+
+});
+
+const data=await response.json();
+
+loader.innerHTML="";
+
+lastResult=data;
+
+let color="green";
+
+if(data.severity==="moderate") color="orange";
+if(data.severity==="high") color="orangered";
+if(data.severity==="critical") color="red";
+
+/* probability bars */
+
+let probBars="";
+
+if(data.all_probabilities){
+
+const order=["Normal","AbnormalHB","historyofmi","mi"];
+
+const labels={
+Normal:"Normal",
+AbnormalHB:"Abnormal HB",
+historyofmi:"History of MI",
+mi:"MI (Active)"
+};
+
+const colors={
+Normal:"normal",
+AbnormalHB:"abnormalhb",
+historyofmi:"historyofmi",
+mi:"mi"
+};
+
+order.forEach(cls=>{
+
+const pct=data.all_probabilities[cls]||0;
+
+probBars+=`
+<div class="prob-bar-row">
+<span class="prob-label">${labels[cls]}</span>
+<div class="prob-bar-bg">
+<div class="prob-bar-fill ${colors[cls]}" style="width:${pct}%">
+${pct}%
+</div>
+</div>
+</div>
+`;
+
+});
+
+}
+
+/* result UI */
+
+resultDiv.innerHTML=`
+
+<div class="result-card">
+
+<h3 style="color:${color};">Prediction: ${data.prediction}</h3>
+
+<p><strong>Confidence:</strong> ${data.confidence}%</p>
+
+<p><strong>Severity:</strong> ${data.severity.toUpperCase()}</p>
+
+<p><strong>Doctor Advice:</strong> ${data.suggestion.doctor}</p>
+
+<h4>Prediction Probabilities</h4>
+
+${probBars}
+
+<button onclick="downloadReport()">Download Report</button>
+
+</div>
+
+`;
+
+}catch(error){
+
+loader.innerHTML="";
+resultDiv.innerHTML="<p style='color:red;'>Server Error</p>";
+
+}
+
+}
+
+function downloadReport(){
+
+if(!lastResult){
+alert("No result to export");
+return;
+}
+
+const report=`
+HeartHealth AI Medical Report
+
+Prediction: ${lastResult.prediction}
+
+Confidence: ${lastResult.confidence} %
+
+Severity: ${lastResult.severity}
+
+Doctor Advice: ${lastResult.suggestion.doctor}
+`;
+
+const blob=new Blob([report],{type:"text/plain"});
+
+const a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+
+a.download="ecg_report.txt";
+
+a.click();
+
+}
+
+</script>
+
+</body>
+</html>
