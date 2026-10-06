@@ -918,69 +918,6 @@ def predict():
         severity = "unknown"
 
 
-
-    # ---------------- SUGGESTIONS ----------------
-    suggestions = {
-
-        "Normal": {
-            "doctor": "Your ECG appears normal. No urgent action needed.",
-            "diet": [
-                "Maintain regular exercise",
-                "Eat balanced diet",
-                "Avoid excessive salt",
-                "Stay hydrated"
-            ]
-        },
-
-        "AbnormalHB": {
-            "doctor": "Irregular heartbeat detected. Consult a cardiologist for evaluation.",
-            "diet": [
-                "Reduce caffeine intake",
-                "Avoid stress",
-                "Monitor blood pressure",
-                "Increase potassium-rich foods"
-            ]
-        },
-
-        "historyofmi": {
-            "doctor": "History of myocardial infarction detected. Regular cardiac checkups required.",
-            "diet": [
-                "Low-fat diet",
-                "Avoid smoking",
-                "Limit cholesterol intake",
-                "Follow prescribed medications"
-            ]
-        },
-
-        "mi": {
-            "doctor": "Possible active myocardial infarction detected. Seek immediate medical attention.",
-            "diet": [
-                "Strictly follow cardiologist advice",
-                "Avoid heavy physical activity",
-                "Take medications regularly",
-                "Maintain heart-healthy diet"
-            ]
-        }
-    }
-
-
-
-    # ---------------- RESPONSE ----------------
-    return jsonify({
-
-        "ecg_prediction": predicted_class,
-        "ecg_confidence": confidence_score,
-        "severity": severity,
-
-        "ecg_probabilities": all_probs,
-
-        "biometric_probability": bio_prob,
-        "fusion_result": fusion_result,
-
-        "suggestion": suggestions[predicted_class]
-    })
-
-
 @app.route("/heart_backend", methods=["GET", "POST"])
 def heart_backend():
     if request.method == "POST":
@@ -1111,3 +1048,65 @@ def chat():
 # ---------------- MAIN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+    # ---------------- SUGGESTIONS ----------------
+        suggestions = {
+    
+            "Normal": {
+                "doctor": "Your ECG appears normal. No urgent action needed.",
+                "diet": [
+                    "Maintain regular exercise",
+                    "Eat balanced diet",
+                    "Avoid excessive salt",
+                    "Stay hydrated"
+                ]
+            },
+    
+            "AbnormalHB": {
+                "doctor": "Irregular heartbeat detected. Consult a cardiologist for evaluation.",
+                "diet": [
+                    "Reduce caffeine intake",
+                    "Avoid stress",
+                    "Monitor blood pressure",
+                    "Increase potassium-rich foods"
+                ]
+            },
+    
+            "historyofmi": {
+                "doctor": "History of myocardial infarction detected. Regular cardiac checkups required.",
+                "diet": [
+                    "Low-fat diet",
+                    "Avoid smoking",
+                    "Limit cholesterol intake",
+                    "Follow prescribed medications"
+                ]
+            },
+    
+            "mi": {
+                "doctor": "Possible active myocardial infarction detected. Seek immediate medical attention.",
+                "diet": [
+                    "Strictly follow cardiologist advice",
+                    "Avoid heavy physical activity",
+                    "Take medications regularly",
+                    "Maintain heart-healthy diet"
+                ]
+            }
+        }
+    
+    
+    
+        # ---------------- RESPONSE ----------------
+        return jsonify({
+    
+            "ecg_prediction": predicted_class,
+            "ecg_confidence": confidence_score,
+            "severity": severity,
+    
+            "ecg_probabilities": all_probs,
+    
+            "biometric_probability": bio_prob,
+            "fusion_result": fusion_result,
+    
+            "suggestion": suggestions[predicted_class]
+        })
